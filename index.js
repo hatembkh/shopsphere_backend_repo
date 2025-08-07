@@ -13,7 +13,7 @@ require('dotenv').config()
 ConnectDB()
 
 app.use(cors({
-  origin: 'https://symphonious-monstera-bc1032.netlify.app/',
+  origin: 'https://symphonious-monstera-bc1032.netlify.app',
   credentials: true
 }));
 
