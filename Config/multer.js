@@ -2,7 +2,12 @@ const multer  = require('multer')
 const fs = require('fs')
 const path = require('path')
 
-const uploadDir = './frontend/public'
+// const uploadDir = './frontend/public'
+const uploadDir = path.join(__dirname, '../../frontend/public');
+
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -37,6 +42,19 @@ const storage = multer.diskStorage({
   }
 })
 
-const upload = multer({ storage })
+// const upload = multer({ storage })
+
+const upload = multer({ 
+  storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    if (allowedTypes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('Invalid file type. Only JPEG, PNG and GIF are allowed.'));
+    }
+  }
+});
 
 module.exports = upload
