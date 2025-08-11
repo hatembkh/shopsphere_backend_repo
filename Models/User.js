@@ -7,7 +7,7 @@ const UserSchema = new mongoose.Schema({
     phoneNumber: String,
     adress : String,
     image: {
-        path: {
+        url: {
             type: String,
             default: "/userDefaultImage.png" 
         },

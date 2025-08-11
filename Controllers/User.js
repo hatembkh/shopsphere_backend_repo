@@ -4,6 +4,8 @@ var jwt = require('jsonwebtoken');
 const path = require('path');
 const fs = require('fs');
 const mongoose = require('mongoose');
+const { generateSignedUrl } = require('../Config/imageConfig');
+
 
 exports.Register = async (req, res) => {
     try {
@@ -22,11 +24,19 @@ exports.Register = async (req, res) => {
             role
         };
 
-        if (req.file) {
+        // if (req.file) {
+        //     userData.image = {
+        //         path: `/${req.file.filename}`,
+        //         filename: req.file.filename
+        //     };
+        // }
+
+            if (req.file) {
+            const imageUrl = generateSignedUrl(req.file.filename)
             userData.image = {
-                path: `/${req.file.filename}`,
+                url: imageUrl,
                 filename: req.file.filename
-            };
+            }
         }
 
 
@@ -171,4 +181,9 @@ exports.DeleteUser = async (req, res) => {
     } catch (error) {
         res.status(500).send({ errors: [{ msg: 'Could not delete user' }] })
     }
+}
+
+exports.SignedURL = (req, res) => {
+    const filePath = path.join(__dirname, '../uploads', req.params.filename)
+    res.sendFile(filePath)
 }
