@@ -5,6 +5,7 @@ const ProductRouter = require('./Routes/Product')
 const CommentsRouter = require('./Routes/Comments')
 const commandeRouter = require('./Routes/Commande')
 const cors = require('cors');
+const path = require('path');
 
 const app = express()
 
